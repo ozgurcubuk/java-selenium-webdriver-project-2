@@ -4,4 +4,4 @@ After cloning project into your local repository, go to root folder of the proje
 ## Apply below the steps for launching test project run on local machine
 
 - Go to root directory of Java project
-- ```mvn test -Dbrowser=Chrome -Dkeyword="Domain specific languages" -Dserver=local```
+- ```mvn test -Dbrowser=Chrome```
