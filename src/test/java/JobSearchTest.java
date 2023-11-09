@@ -1,6 +1,14 @@
-import org.junit.Test;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import pages.CareersPage;
 import pages.MainPage;
+
+import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -58,5 +66,19 @@ public class JobSearchTest extends TestBase {
         System.out.println(info+"verifying directed page url after View Role button click");
         assertEquals("https://jobs.lever.co/useinsider/78ddbec0-16bf-4eab-b5a6-04facb993ddc", careersPage.getUrlOfApplicationDirectedAfterViewRoleButtonClick());
         driver.quit();
+    }
+
+    @AfterMethod
+    public void takeScreenShotOnFailure(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            try {
+                TakesScreenshot screenshot = (TakesScreenshot) driver;
+                File src = screenshot.getScreenshotAs(OutputType.FILE);
+                FileUtils.copyFile(src, new File("./src/test/java/screenshots/" + result.getName() + System.currentTimeMillis() + ".png"));
+                System.out.println("screenshot for failed test case has been captured");
+            } catch (Exception e) {
+                System.out.println("Exception occurred by taking screenshot, kindly check logs " + e.getMessage());
+            }
+        }
     }
 }
